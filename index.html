@@ -262,6 +262,14 @@
 		}
 
 
+.seccion-lectura {
+    clear: both;            /* Rompe cualquier comportamiento flotante anterior */
+    display: inline-block;  /* Asegura que se comporte como un bloque sólido */
+    width: 100%;            /* Ocupa todo el ancho disponible */
+    margin-top: 60px;       /* Empuja el texto drásticamente hacia abajo creando aire */
+    padding-top: 20px;      /* Espacio interno extra */
+    border-top: 1px solid #eeeeee; /* Opcional: una línea sutil gris para separar la interfaz del texto */
+}
 
     </style>
 </head>
@@ -312,8 +320,9 @@
 
 
     <!-- Sección 0 -->
-    <section id="Biblioteca" class="section-block">
-        <h2>0. Uso y normas para el correcto uso de la Biblioteca</h2>
+	<div class="seccion-lectura" id="Biblioteca">
+    	<h2>0. Uso y normas para el correcto uso de la Biblioteca</h2>
+    
         <p>La Biblioteca esta siempre abierta para que puedas disfrutar con la lectura, por favor mantén el orden:</p>
         
         <ul class="features-list">
@@ -391,6 +400,7 @@
         </li>
             
         </ul>
+	</div>			
     </section>
 
 
