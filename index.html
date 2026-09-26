@@ -45,32 +45,46 @@
 
         /* Índice visual con enlaces nativos */
         /* Índice visual con enlaces nativos - ACTUALIZADO */
-        .nav-summary {
-            display: grid;
-            /* Forzamos 4 columnas en PC */
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-        }
+/* 1. Modificamos el contenedor principal de las tarjetas */
+.nav-summary {
+    display: grid;
+    /* Creamos una cuadrícula de 4 columnas iguales para las tarjetas inferiores */
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 20px;
+    /* Añadimos un buen espacio abajo para que NO se meta la Sección 0 de lectura */
+    margin-bottom: 50px; 
+}
 
-        /* Nueva clase para que la Sección 0 ocupe todo el ancho */
-        .tarjeta-ancha {
-            grid-column: span 4;
-        }
+/* 2. Modificamos la Tarjeta 0 para centrarla y que ocupe el tamaño correcto */
+.summary-card.tarjeta-ancha {
+    /* Hace que la tarjeta 0 ocupe las 4 columnas del grid, pero... */
+    grid-column: 1 / -1; 
+    /* ...limitamos su tamaño para que no sea gigante y sea idéntica a las de abajo */
+    max-width: 280px; 
+    /* Centra la tarjeta horizontalmente dentro de su fila */
+    margin: 0 auto; 
+    /* Asegura que el enlace se comporte como un bloque centrado */
+    display: block; 
+}
 
+/* 3. Aseguramos que todas las tarjetas tengan un diseño consistente */
+.summary-card {
+    background: #ffffff;
+    border: 2px solid #0056b3; /* O el color azul que uses */
+    border-radius: 6px;
+    padding: 15px;
+    text-decoration: none;
+    color: #333333;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
 
-        .summary-card {
-            background-color: var(--bg-card);
-            padding: 15px;
-            border-radius: 6px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            text-decoration: none;
-            color: inherit;
-            border: 1px solid var(--border-color);
-            border-top: 4px solid var(--primary-color);
-            display: block;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
+/* 4. Por seguridad, dale espacio superior a tus secciones de contenido */
+#Biblioteca, section {
+    scroll-margin-top: 20px; /* Para que al pulsar el enlace no se pegue arriba del todo */
+}
+
 
         .summary-card:hover {
             transform: translateY(-3px);
