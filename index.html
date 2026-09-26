@@ -263,13 +263,14 @@
 
 
 .seccion-lectura {
-    clear: both;            /* Rompe cualquier comportamiento flotante anterior */
-    display: inline-block;  /* Asegura que se comporte como un bloque sólido */
-    width: 100%;            /* Ocupa todo el ancho disponible */
-    margin-top: 60px;       /* Empuja el texto drásticamente hacia abajo creando aire */
-    padding-top: 20px;      /* Espacio interno extra */
-    border-top: 1px solid #eeeeee; /* Opcional: una línea sutil gris para separar la interfaz del texto */
+    clear: both;            /* Rompe cualquier comportamiento extraño de las tarjetas de arriba */
+    display: block;         /* Asegura que actúe como un bloque sólido e independiente */
+    width: 100%;            /* Ocupa todo el ancho */
+    margin-top: 70px;       /* Crea un buen hueco de separación con las tarjetas */
+    padding-top: 20px;      /* Espacio interno superior */
+    border-top: 1px solid #eeeeee; /* Opcional: línea fina gris para separar visualmente */
 }
+
 
     </style>
 </head>
