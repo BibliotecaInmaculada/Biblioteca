@@ -246,6 +246,29 @@
 		        padding: 20px;
 		    }
 		}
+				/* --- CONFIGURACIÓN BASE (Móviles y Tablets pequeñas) --- */
+		.img-buzon {
+		  /* Ocupa todo el ancho disponible en pantallas pequeñas */
+		  width: 100%; 
+		  /* Evita que se deforme al escalar */
+		  height: auto; 
+		  /* Ajuste de diseño y centrado */
+		  display: block;
+		  margin: 0 auto;
+		  /* Estilos estéticos que ya tenías */
+		  border-radius: 6px;
+		  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+		  cursor: zoom-in;
+		}
+		
+		/* --- ORDENADORES Y PANTALLAS GRANDES (Desde 768px en adelante) --- */
+		@media (min-width: 768px) {
+		  .img-buzon {
+		    /* En computadoras no se estira al 100%, se detiene en un tamaño óptimo */
+		    max-width: 600px; 
+		  }
+		}
+
 
 
 
@@ -312,12 +335,15 @@
 			  
 			  <ul style="margin: 8px 0 0 40px; color: #555; list-style-type: square; padding-left: 0;">
 				  <p><strong>Manualmente:</strong> Rellena la ficha que hay junto al Buzón Blanco, con el Titulo del Libro, tu nombre, nº de teléfono e introduce la ficha dentro del Buzón</p>
-				  <p><strong>Usa la App:</strong> Si estas fuera de la Biblioteca puedes hacer una reserva. Si estas en la Biblioteca escanear el QR y llevarte el libro.<p>
+				  <p><strong>Usa la App:</strong> Si estas fuera de la Biblioteca puedes hacer una reserva. 
+				  Si estas en la Biblioteca escanear el QR y llevarte el libro.<p>
 				  <p> Cuando termines de leerlo, llévalo a la Biblioteca y dejarlo sobre la Bandeja Negra, que hay en la Sala:</p>
 				  <figure style="text-align: center; margin: 20px 0;">
 					<!-- Enlace para abrir la imagen en detalle -->
 					<a href="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Buzon_Bandeja.png" target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
-					<img src="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Buzon_Bandeja.png" style="width: 100%; max-width: 320px; display: block; margin: 0 auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: zoom-in;">
+						<img src="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Buzon_Bandeja.png?raw=true" 
+					     alt="Imagen Buzón de Bandeja" 
+					     class="img-buzon">
 					</a>
 					<!-- Texto explicativo abajo -->
 					<figcaption style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 8px; padding: 0 10px;">
@@ -349,8 +375,12 @@
 
 			<figure style="text-align: center; margin: 20px 0;">
 				<!-- Enlace para abrir la imagen en detalle -->
-				<a href="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Vista_Estanterias.png?raw=true" target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
-				<img src="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Vista_Estanterias.png?raw=true" style="width: 100%; max-width: 320px; display: block; margin: 0 auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: zoom-in;">
+				<a href="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Vista_Estanterias.png?raw=true" target="_blank" title="Haga clic para ampliar la 
+					imagen" style="text-decoration: none; display: inline-block;">
+				<img src="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Vista_Estanterias.png?raw=true" 
+					alt="Estanterias" 
+					class="img-buzon">
+	
 				</a>
 				<!-- Texto explicativo abajo -->
 				<figcaption style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 8px; padding: 0 10px;">
@@ -364,7 +394,10 @@
         <figure style="text-align: center; margin: 20px 0;">
 				<!-- Enlace para abrir la imagen en detalle -->
 				<a href="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Sello_QR.png?raw=true" target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
-				<img src="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Sello_QR.png?raw=true" style="width: 100%; max-width: 320px; display: block; margin: 0 auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: zoom-in;">
+				<img src="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Sello_QR.png?raw=true" 
+					alt="Sello y QR" 
+					class="img-buzon">
+
 				</a>
 				<!-- Texto explicativo abajo -->
 				<figcaption style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 8px; padding: 0 10px;">
@@ -412,7 +445,9 @@
 		<figure style="text-align: center; margin: 20px 0;">
 		<!-- Enlace para abrir la imagen en detalle -->
 		<a href="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Permisos_app.png?raw=true" target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
-		<img src="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Permisos_app.png?raw=true" style="width: 100%; max-width: 320; display: block; margin: 0 auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: zoom-in;">
+			<img src="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Permisos_app.png?raw=true" 
+			alt="Sello y QR" 
+			class="img-buzon">
 		</a>
 		<!-- Texto explicativo abajo -->
 		<figcaption style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 8px; padding: 0 10px;">
@@ -462,7 +497,9 @@
           	<figure style="text-align: center; margin: 20px 0;">
 			<!-- Enlace para abrir la imagen en detalle -->
 			<a href="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Instalación.png?raw=true" target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
-			<img src="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Instalación.png?raw=true" style="width: 100%; max-width: 320; display: block; margin: 0 auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: zoom-in;">
+			<img src="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Instalación.png?raw=true" 
+			alt="Sello y QR" 
+			class="img-buzon">
 			</a>
 			<!-- Texto explicativo abajo -->
 			<figcaption style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 8px; padding: 0 10px;">
@@ -492,7 +529,10 @@
     	<figure style="text-align: center; margin: 20px 0;">
 			<!-- Enlace para abrir la imagen en detalle -->
 			<a href="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Busqueda.png?raw=true" target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
-			<img src="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Busqueda.png?raw=true" style="width: 100%; max-width: 320; display: block; margin: 0 auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: zoom-in;">
+			<img src="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Busqueda.png?raw=true" 
+			alt="Busqueda de libros" 
+			class="img-buzon">
+
 			</a>
 			<!-- Texto explicativo abajo -->
 			<figcaption style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 8px; padding: 0 10px;">
@@ -521,7 +561,10 @@
           <figure style="text-align: center; margin: 20px 0;">
 			<!-- Enlace para abrir la imagen en detalle -->
 			<a href="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Escaner_QR.png?raw=true" target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
-			<img src="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Escaner_QR.png?raw=true" style="width: 100%; max-width: 320; display: block; margin: 0 auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: zoom-in;">
+			<img src="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Escaner_QR.png?raw=true" 
+			alt="Escaneo de QR" 
+			class="img-buzon">
+
 			</a>
 			<!-- Texto explicativo abajo -->
 			<figcaption style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 8px; padding: 0 10px;">
@@ -541,7 +584,10 @@
           <figure style="text-align: center; margin: 20px 0;">
 			<!-- Enlace para abrir la imagen en detalle -->
 			<a href="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Bandeja%20Negra.jpg?raw=true" target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
-			<img src="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Bandeja%20Negra.jpg?raw=true" style="width: 100%; max-width: 320; display: block; margin: 0 auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: zoom-in;">
+			<img src="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Bandeja%20Negra.jpg?raw=true" 
+			alt="Bandeja Negra" 
+			class="img-buzon">
+
 			</a>
 			<!-- Texto explicativo abajo -->
 			<figcaption style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 8px; padding: 0 10px;">
