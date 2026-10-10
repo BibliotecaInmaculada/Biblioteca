@@ -271,7 +271,30 @@
     border-top: 1px solid #eeeeee; /* Opcional: línea fina gris para separar visualmente */
 	scroll-margin-top: 110px !important; 
 }
-
+	
+	
+	/* --- CONFIGURACIÓN BASE (Móviles y Tablets pequeñas) --- */
+	.img-buzon {
+	  /* Ocupa todo el ancho disponible en pantallas pequeñas */
+	  width: 100%; 
+	  /* Evita que se deforme al escalar */
+	  height: auto; 
+	  /* Ajuste de diseño y centrado */
+	  display: block;
+	  margin: 0 auto;
+	  /* Estilos estéticos que ya tenías */
+	  border-radius: 6px;
+	  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+	  cursor: zoom-in;
+	}
+	
+	/* --- ORDENADORES Y PANTALLAS GRANDES (Desde 768px en adelante) --- */
+	@media (min-width: 768px) {
+	  .img-buzon {
+	    /* En computadoras no se estira al 100%, se detiene en un tamaño óptimo */
+	    max-width: 600px; 
+	  }
+	}
 
     </style>
 </head>
@@ -282,7 +305,7 @@
 
     <!-- Cabecera fija que se mantiene arriba al hacer scroll -->
     <header class="cabecera-biblioteca">
-        <img src="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Buzon_Bandeja.png?raw=true" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" alt="Logo Biblioteca">
+        <img src="Fotos/Imagen_Buzon_Bandeja.png?raw=true" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" alt="Logo Biblioteca">
         <div>
             <h1 style="color: var(--primary-color); font-size: 1.25rem; font-weight: 700; margin: 0; line-height: 1.2;">Guía de Ayuda - Biblioteca Parroquial</h1>
             <p style="color: var(--text-muted); font-size: 0.85rem; margin: 2px 0 0 0;">Inmaculada Concepción de Alcorcón</p>
@@ -341,9 +364,11 @@
 				  <p> Cuando termines de leerlo, llévalo a la Biblioteca y dejarlo sobre la Bandeja Negra, que hay en la Sala:</p>
 				  <figure style="text-align: center; margin: 20px 0;">
 					<!-- Enlace para abrir la imagen en detalle -->
-					<a href="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Buzon_Bandeja.png?raw=true" target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
-					<img src="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Buzon_Bandeja.png?raw=true" style="width: 100%; max-width: 320px; display: block; margin: 0 auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: zoom-in;">
-					</a>
+					<a href="Fotos/Imagen_Buzon_Bandeja.png?raw=true" target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
+					<img src="Fotos/Imagen_Buzon_Bandeja.png?raw=true" 
+				     alt="Buzón de Bandeja" 
+				     class="img-buzon">
+				    </a>
 					<!-- Texto explicativo abajo -->
 					<figcaption style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 8px; padding: 0 10px;">
 					* Imagen de la para la Recogida y Devolución de los libros.
@@ -374,8 +399,11 @@
 
 			<figure style="text-align: center; margin: 20px 0;">
 				<!-- Enlace para abrir la imagen en detalle -->
-				<a href="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Vista_Estanterias.png?raw=true" target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
-				<img src="https://github.com/BibliotecaInmaculada/Biblioteca/blob/Fotos/Imagen_Vista_Estanterias.png?raw=true" style="width: 100%; max-width: 320px; display: block; margin: 0 auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: zoom-in;">
+				<a href="Fotos/Imagen_Vista_Estanterias.png?raw=true" target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
+				<img src="Fotos/Imagen_Vista_Estanterias.png?raw=true" 
+				     alt="Estanterias" 
+				     class="img-buzon">
+
 				</a>
 				<!-- Texto explicativo abajo -->
 				<figcaption style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 8px; padding: 0 10px;">
@@ -388,8 +416,10 @@
       
         <figure style="text-align: center; margin: 20px 0;">
 				<!-- Enlace para abrir la imagen en detalle -->
-				<a href="https://drive.google.com/thumbnail?sz=w1000&id=1ecd-u_4O3gS-R9StWkaAf4pxzLRc7HoG" target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
-				<img src="https://drive.google.com/thumbnail?sz=w1000&id=1ecd-u_4O3gS-R9StWkaAf4pxzLRc7HoG" style="width: 100%; max-width: 320px; display: block; margin: 0 auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: zoom-in;">
+				<a href="Fotos/Imagen_Sello_QR.png?raw=true" target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
+				<img src="Fotos/Imagen_Sello_QR.png?raw=true" 
+				 alt="Sello y QR" 
+				 class="img-buzon">
 				</a>
 				<!-- Texto explicativo abajo -->
 				<figcaption style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 8px; padding: 0 10px;">
@@ -436,8 +466,10 @@
 
 		<figure style="text-align: center; margin: 20px 0;">
 		<!-- Enlace para abrir la imagen en detalle -->
-		<a href="https://drive.google.com/thumbnail?sz=w1000&id=1VhonBMUM02f6erjcelJPu4Q3umTF5TbZ" target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
-		<img src="https://drive.google.com/thumbnail?sz=w1000&id=1VhonBMUM02f6erjcelJPu4Q3umTF5TbZ" style="width: 100%; max-width: 320; display: block; margin: 0 auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: zoom-in;">
+		<a href="Fotos/Imagen_Permisos_app.png?raw=true"  target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
+		<img src="Fotos/Imagen_Permisos_app.png?raw=true" 
+		 alt="Permisos de la app" 
+		 class="img-buzon">
 		</a>
 		<!-- Texto explicativo abajo -->
 		<figcaption style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 8px; padding: 0 10px;">
@@ -486,8 +518,10 @@
 	</figure>   
           	<figure style="text-align: center; margin: 20px 0;">
 			<!-- Enlace para abrir la imagen en detalle -->
-			<a href="https://drive.google.com/thumbnail?sz=w1000&id=1DP4fjWs1ir36zP5UwaoHflQFK52_UZve" target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
-			<img src="https://drive.google.com/thumbnail?sz=w1000&id=1DP4fjWs1ir36zP5UwaoHflQFK52_UZve" style="width: 100%; max-width: 320; display: block; margin: 0 auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: zoom-in;">
+			<a href="Fotos/Imagen_Instalación.png?raw=true"  target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
+			<img src="Fotos/Imagen_Instalación.png?raw=true" 
+			 alt="Estanterias" 
+			 class="img-buzon">
 			</a>
 			<!-- Texto explicativo abajo -->
 			<figcaption style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 8px; padding: 0 10px;">
@@ -516,8 +550,10 @@
       
     	<figure style="text-align: center; margin: 20px 0;">
 			<!-- Enlace para abrir la imagen en detalle -->
-			<a href="https://drive.google.com/thumbnail?sz=w1000&id=16St-LyokfE0pmxx0JxwIImZAN8IOmaDg" target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
-			<img src="https://drive.google.com/thumbnail?sz=w1000&id=16St-LyokfE0pmxx0JxwIImZAN8IOmaDg" style="width: 100%; max-width: 320; display: block; margin: 0 auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: zoom-in;">
+			<a href="Fotos/Imagen_Busqueda.png?raw=true"  target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
+			<img src="Fotos/Imagen_Busqueda.png?raw=true" 
+			 alt="Busqueda de Libros" 
+			 class="img-buzon">
 			</a>
 			<!-- Texto explicativo abajo -->
 			<figcaption style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 8px; padding: 0 10px;">
@@ -545,12 +581,14 @@
 
           <figure style="text-align: center; margin: 20px 0;">
 			<!-- Enlace para abrir la imagen en detalle -->
-			<a href="https://drive.google.com/thumbnail?sz=w1000&id=1XOv9Ym-Un2_RnFSAMQ_fZL1a2zGT9p9R" target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
-			<img src="https://drive.google.com/thumbnail?sz=w1000&id=1XOv9Ym-Un2_RnFSAMQ_fZL1a2zGT9p9R" style="width: 100%; max-width: 320; display: block; margin: 0 auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: zoom-in;">
+			<a href="Fotos/Imagen_Escaner_QR.png?raw=true"  target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
+			<img src="Fotos/Imagen_Escaner_QR.png?raw=true" 
+			 alt="Prestamo Libro" 
+			 class="img-buzon">
 			</a>
 			<!-- Texto explicativo abajo -->
 			<figcaption style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 8px; padding: 0 10px;">
-				* Estas imágenes muestran el proceso de reserva de un libro
+				* Estas imágenes muestran el proceso de Reserva/Prestamo de un libro
 			</figcaption>
 		</figure>
 
@@ -565,8 +603,10 @@
 
           <figure style="text-align: center; margin: 20px 0;">
 			<!-- Enlace para abrir la imagen en detalle -->
-			<a href="https://drive.google.com/thumbnail?sz=w1000&id=1I7ag65ErfrtjhZ5YPCNIsCFZoahNCs1-" target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
-			<img src="https://drive.google.com/thumbnail?sz=w1000&id=1I7ag65ErfrtjhZ5YPCNIsCFZoahNCs1-" style="width: 100%; max-width: 320; display: block; margin: 0 auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: zoom-in;">
+			<a href="Fotos/Bandeja Negra.jpg?raw=true"  target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block;">
+			<img src="Fotos/Bandeja Negra.jpg?raw=true" 
+			 alt="Bandeja negra" 
+			 class="img-buzon">
 			</a>
 			<!-- Texto explicativo abajo -->
 			<figcaption style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 8px; padding: 0 10px;">
