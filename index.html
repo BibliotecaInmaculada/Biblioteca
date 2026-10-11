@@ -246,28 +246,40 @@
 		        padding: 20px;
 		    }
 		}
-				/* --- CONFIGURACIÓN BASE (Móviles y Tablets pequeñas) --- */
-		.img-buzon {
-		  /* Ocupa todo el ancho disponible en pantallas pequeñas */
-		  width: 100%; 
-		  /* Evita que se deforme al escalar */
-		  height: auto; 
-		  /* Ajuste de diseño y centrado */
-		  display: block;
-		  margin: 0 auto;
-		  /* Estilos estéticos que ya tenías */
-		  border-radius: 6px;
-		  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-		  cursor: zoom-in;
-		}
-		
-		/* --- ORDENADORES Y PANTALLAS GRANDES (Desde 768px en adelante) --- */
-		@media (min-width: 768px) {
-		  .img-buzon {
-		    /* En computadoras no se estira al 100%, se detiene en un tamaño óptimo */
-		    max-width: 600px; 
-		  }
-		}
+/* Contenedor especial para que en móvil se pueda deslizar de lado a lado */
+.contenedor-panoramico {
+  width: 100%;
+  overflow-x: auto; /* Activa el deslizamiento horizontal si no cabe */
+  margin: 20px 0;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  -webkit-overflow-scrolling: touch; /* Suaviza el scroll en iPhones */
+}
+
+/* Estilo para la foto panorámica */
+.img-panoramica {
+  display: block;
+  height: auto;
+  cursor: zoom-in;
+  
+  /* --- AJUSTE PARA MÓVILES --- */
+  /* Le obligamos a tener un ancho mínimo en móvil para que las letras sean legibles */
+  min-width: 750px; 
+  width: 100%;
+}
+
+/* --- AJUSTE PARA ORDENADORES (Pantallas grandes) --- */
+@media (min-width: 992px) {
+  .img-panoramica {
+    /* En PC dejamos que se estire mucho más para aprovechar la pantalla ancha */
+    min-width: auto;
+    max-width: 100%; 
+  }
+  .contenedor-panoramico {
+    box-shadow: none; /* Quitamos la sombra del contenedor en PC */
+  }
+}
+
 
 
 
@@ -375,13 +387,17 @@
 
 			<figure style="text-align: center; margin: 20px 0;">
 				<!-- Enlace para abrir la imagen en detalle -->
-				<a href="Fotos/Imagen_Vista_Estanterias.png" target="_blank" title="Haga clic para ampliar la 
-					imagen" style="text-decoration: none; display: inline-block;">
-				<img src="Fotos/Imagen_Vista_Estanterias.png" 
-					alt="Estanterias" 
-					class="img-buzon">
-	
-				</a>
+
+				<div class="contenedor-panoramico">
+				  <a href="Fotos/Imagen_Vista_Estanterias.png" target="_blank" title="Haga clic para ampliar la imagen" style="text-decoration: none; display: inline-block; width: 100%;">
+				    
+				    <img src="Fotos/Imagen_Vista_Estanterias.png" 
+				         alt="Estanterias" 
+				         class="img-panoramica">
+				
+				  </a>
+				</div>
+
 				<!-- Texto explicativo abajo -->
 				<figcaption style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 8px; padding: 0 10px;">
 				* Imagen explicativa del Orden de las Estanterías.
