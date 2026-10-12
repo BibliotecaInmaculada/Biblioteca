@@ -44,15 +44,16 @@
             width: 100%; /* Asegura que llene el nuevo ancho expandido */
         }
 
-        /* Índice visual con enlaces nativos - ACTUALIZADO */
+        /* Busca .nav-summary en tu CSS y sustitúyelo por este bloque */
         .nav-summary {
             display: grid;
-            /* Forzamos 4 columnas en PC */
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
+            /* Forzamos 5 columnas idénticas en horizontal para PC */
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px; /* Reducimos un pelín el espacio entre ellas para que quepan holgadas */
             margin-bottom: 30px;
-            width: 100%; /* Usa todo el nuevo ancho disponible */
+            width: 100%;
         }
+
 
         /* Nueva clase para que la Sección 0 ocupe todo el ancho */
         .tarjeta-ancha {
@@ -270,32 +271,38 @@
 
 	</div>
 	<div>	
-		<div style="display: flex; justify-content: center; width: 100%; margin-bottom: 20px;">
-		    <a href="#Biblioteca" class="summary-card" style="width: 100%; max-width: 350px; text-align: left;">
-		        <h3>0. Uso de la Biblioteca</h3>
-		        <p>Orden y Normas generales.</p>
-		    </a>
-		</div>
-		
-
 		<section class="nav-summary">
+            <!-- Tarjeta 0 (Ahora sin estilos raros, una más del grupo) -->
+            <a href="#Biblioteca" class="summary-card">
+                <h3>0. Uso de la Biblioteca</h3>
+                <p>Orden y Normas generales.</p>
+            </a>
+            
+            <!-- Tarjeta 1 -->
             <a href="#privacidad" class="summary-card">
                 <h3>1. Permisos y Datos personales</h3>
                 <p>Uso y políticas de avisos.</p>
             </a>
+            
+            <!-- Tarjeta 2 -->
             <a href="#instalacion" class="summary-card">
                 <h3>2. Instalación y Acceso</h3>
                 <p>Enlaces para ver o instalar la App.</p>
             </a>
+            
+            <!-- Tarjeta 3 -->
             <a href="#Consulta" class="summary-card">
                 <h3>3. Consultas y Filtros</h3>
                 <p>Búsqueda y localización de libros.</p>
             </a>
+            
+            <!-- Tarjeta 4 -->
             <a href="#prestamos" class="summary-card">
                 <h3>4. Préstamos y Devolución</h3>
                 <p>Llevarte un libro a casa.</p>
             </a>
         </section>
+
     </div>
 
 
