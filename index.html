@@ -286,12 +286,22 @@
             <p>En esta web vamos a intentar explicarte el uso que puedes hacer de la Biblioteca. También ponemos a tu disposición la posibilidad de consultar de una manera sencilla el catálogo de libros disponibles a través de internet.</p>
         </div>
         
-        <section class="nav-summary">
-            <!-- Tarjetas 0, 1, 2, 3, 4 con sus respectivos enlaces #id -->
-            <a href="#Biblioteca" class="summary-card tarjeta-ancha">
-                <h3>0. Uso de la Biblioteca</h3>
-                <p>Orden y Normas generales.</p>
-            </a>
+        <!-- Busca el contenedor de la sección 0 y añade "margin: 0 auto; max-width: 500px;" -->
+<div style="margin: 0 auto; max-width: 500px; text-align: center;">
+  <h3>0. Uso de la Biblioteca</h3>
+  <p>Orden y Normas generales.</p>
+</div>
+		<section class="nav-summary">
+		    <!-- Tarjeta 0 centrada en la rejilla mediante bloques base -->
+		    <div class="summary-card" style="visibility: hidden;"></div> <!-- Bloque izquierdo invisible -->
+		    
+		    <a href="#Biblioteca" class="summary-card">
+		        <h3>0. Uso de la Biblioteca</h3>
+		        <p>Orden y Normas generales.</p>
+		    </a>
+		    
+		    <div class="summary-card" style="visibility: hidden;"></div> <!-- Bloque derecho invisible -->
+
             <a href="#privacidad" class="summary-card">
                 <h3>1. Permisos y Datos personales</h3>
                 <p>Uso y políticas de avisos.</p>
