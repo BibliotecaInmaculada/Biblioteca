@@ -29,7 +29,7 @@
 
     <script>
         try {
-            // 1. El mismo método exacto que acabamos de validar con éxito
+            // 1. Extracción del ID de la URL
             var urlCompleta = window.location.href;
             var posicionId = urlCompleta.indexOf("?id=");
             var idPrestamo = "";
@@ -39,22 +39,17 @@
                 idPrestamo = idExtraido.substring(0, 12);
             }
 
-            // 2. Si el ID es correcto (12 caracteres), inyectamos tu script estable de Google
+            // 2. Si el ID es correcto, hacemos la redirección directa en vez de usar iframe
             if (idPrestamo && idPrestamo.length === 12) {
-                // Ocultamos el mensaje de carga
-                document.getElementById("pantalla-carga").style.display = "none";
-
-                // Tu URL de producción de Google Apps Script 100% estable
-               // var urlScriptGoogle = "https://script.google.com/macros/s/AKfycbzEYWDglvTB-IrdSYwaEmhuqDPzNg79b84w6OzhIVuTPWP81IDrdJhC4X9wAEil40irhg/exec?id=" + idPrestamo;
-                var urlScriptGoogle ="https://script.google.com/macros/s/AKfycbwhJ2VUAjQx2lau2g40BMmtrQdhsy7K7rN_RwcEeNTfV0Lwweo4LMMzLPGyRgnz2Va0Ug/exec?id=26003115800G"
-                // Creamos el marco que ocupará toda la pantalla de forma limpia
-                var iframe = document.createElement('iframe');
-                iframe.src = urlScriptGoogle;
-                iframe.style.width = "100%";
-                iframe.style.height = "100%";
-                iframe.style.border = "none";
                 
-                document.body.appendChild(iframe);
+                // CAMBIO AQUÍ: Definimos la URL (puedes alternar entre estas dos líneas según tus pruebas)
+                // var urlScriptGoogle = "https://google.com" + idPrestamo;
+               var urlScriptGoogle ="https://script.google.com/macros/s/AKfycbwhJ2VUAjQx2lau2g40BMmtrQdhsy7K7rN_RwcEeNTfV0Lwweo4LMMzLPGyRgnz2Va0Ug/exec?id=" + idPrestamo;
+
+
+                // CAMBIO AQUÍ: En lugar de crear un iframe, forzamos al navegador a ir a la URL de Google
+                window.location.href = urlScriptGoogle;
+
             } else {
                 document.getElementById("pantalla-carga").innerHTML = 
                     '<p style="color:#d9534f; font-weight:bold; font-size:1.5rem;">⚠️ Enlace inválido</p>' +
