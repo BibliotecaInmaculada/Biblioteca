@@ -1,48 +1,19 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biblioteca Parroquial - Renovación Online</title>
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #f8f9fa;
-            font-family: sans-serif;
-        }
-        .mensaje-carga {
-            text-align: center;
-            padding-top: 50px;
-            color: #1e3d59;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-
-    <div id="pantalla-carga" class="mensaje-carga">Conectando de forma segura con el sistema de la biblioteca...</div>
-
     <script>
         try {
-            // 1. Extraer el ID directamente buscando el texto "?id=" en la barra de direcciones
+            // 1. Extraer el ID directamente de la barra de direcciones de forma limpia
             var urlCompleta = window.location.href;
             var idPrestamo = "";
 
             if (urlCompleta.indexOf("?id=") !== -1) {
-                // Cortamos el texto justo después del "?id="
                 var partes = urlCompleta.split("?id=");
                 if (partes.length > 1) {
-                    // Nos aseguramos de coger solo los primeros 12 caracteres por si hay añadidos de Google
-                    idPrestamo = partes[1].substring(0, 12);
+                    // CORREGIDO: Aplicamos el corte sobre el texto limpio (partes[1]) y no sobre la lista
+                    var idExtraido = partes[1].trim();
+                    idPrestamo = idExtraido.substring(0, 12);
                 }
             }
 
-            // 2. Si el ID es válido, fabricamos el marco invisible
+            // 2. Si el ID es correcto (12 caracteres), fabricamos el marco invisible
             if (idPrestamo && idPrestamo.length === 12) {
                 // Ocultamos el mensaje de carga
                 document.getElementById("pantalla-carga").style.display = "none";
@@ -68,5 +39,3 @@
                 '<p style="color:#d9534f;">Error de lectura en el navegador. Por favor, refresque la página.</p>';
         }
     </script>
-</body>
-</html>
