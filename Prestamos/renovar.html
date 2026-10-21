@@ -28,32 +28,44 @@
     <div id="pantalla-carga" class="mensaje-carga">Conectando de forma segura con el sistema de la biblioteca...</div>
 
     <script>
-        // 1. Capturar los parámetros de la URL de la barra de direcciones de GitHub Pages
-        const urlParams = new URLSearchParams(window.location.search);
-        const idPrestamo = urlParams.get('id');
+        try {
+            // 1. Extraer el ID directamente buscando el texto "?id=" en la barra de direcciones
+            var urlCompleta = window.location.href;
+            var idPrestamo = "";
 
-        // 2. Si el ID existe y es correcto (12 caracteres), inyectamos tu script estable de Google
-        if (idPrestamo && idPrestamo.length === 12) {
-            // Ocultamos el texto de carga inicial
-            document.getElementById("pantalla-carga").style.display = "none";
+            if (urlCompleta.indexOf("?id=") !== -1) {
+                // Cortamos el texto justo después del "?id="
+                var partes = urlCompleta.split("?id=");
+                if (partes.length > 1) {
+                    // Nos aseguramos de coger solo los primeros 12 caracteres por si hay añadidos de Google
+                    idPrestamo = partes[1].substring(0, 12);
+                }
+            }
 
-            // Tu URL de producción de Google Apps Script (la versión 100% estable que recuperamos)
-            const urlScriptGoogle = "https://google.com" + idPrestamo;
+            // 2. Si el ID es válido, fabricamos el marco invisible
+            if (idPrestamo && idPrestamo.length === 12) {
+                // Ocultamos el mensaje de carga
+                document.getElementById("pantalla-carga").style.display = "none";
 
-            // Creamos el marco (Iframe) que ocupará toda la pantalla y camuflará el banner gris superior
-            const iframe = document.createElement('iframe');
-            iframe.src = urlScriptGoogle;
-            iframe.style.width = "100%";
-            iframe.style.height = "100%";
-            iframe.style.border = "none";
-            
-            document.body.appendChild(iframe);
-        } else {
-            // Protección anticaídas si alguien entra al enlace corrupto o sin el id
-            document.getElementById("pantalla-carga").innerHTML = `
-                <p style="color:#d9534f; font-weight:bold; font-size:1.5rem;">⚠️ Enlace inválido</p>
-                <p style="font-size:1rem; color:#6c757d;">No se ha detectado el código del préstamo en la URL. Por favor, asegúrate de abrir el enlace completo que has recibido por WhatsApp.</p>
-            `;
+                // Tu URL de producción de Google Apps Script 100% estable
+                var urlScriptGoogle = "https://google.com" + idPrestamo;
+
+                // Creamos el iframe que ocupará toda la pantalla
+                var iframe = document.createElement('iframe');
+                iframe.src = urlScriptGoogle;
+                iframe.style.width = "100%";
+                iframe.style.height = "100%";
+                iframe.style.border = "none";
+                
+                document.body.appendChild(iframe);
+            } else {
+                document.getElementById("pantalla-carga").innerHTML = 
+                    '<p style="color:#d9534f; font-weight:bold; font-size:1.5rem;">⚠️ Enlace inválido</p>' +
+                    '<p style="font-size:1rem; color:#6c757d;">No se ha detectado el código del préstamo en la URL. Por favor, utiliza el enlace completo de WhatsApp.</p>';
+            }
+        } catch (error) {
+            document.getElementById("pantalla-carga").innerHTML = 
+                '<p style="color:#d9534f;">Error de lectura en el navegador. Por favor, refresque la página.</p>';
         }
     </script>
 </body>
