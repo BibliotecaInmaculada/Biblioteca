@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca Parroquial - Renovación Online</title>
-    <!-- Cargamos Bootstrap 5 oficial para asegurar que el spinner estético funcione siempre -->
-    <link href="https://jsdelivr.net" rel="stylesheet">
     <style>
         html, body {
             margin: 0;
@@ -16,29 +14,22 @@
             background-color: #f8f9fa;
             font-family: sans-serif;
         }
-        .pantalla-espera {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        .mensaje-carga {
+            text-align: center;
+            padding-top: 50px;
             color: #1e3d59;
-            background-color: #f8f9fa;
+            font-size: 1.2rem;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-    <!-- Indicador de carga estético y centrado profesionalmente -->
-    <div id="pantalla-carga" class="pantalla-espera">
-        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
-        <div class="mt-3 fw-bold fs-5">Conectando con la Biblioteca Parroquial...</div>
-        <div class="text-muted small">Por favor, espera un momento.</div>
-    </div>
+    <div id="pantalla-carga" class="mensaje-carga">Conectando de forma segura con el sistema de la biblioteca...</div>
 
     <script>
         try {
-            // 1. Extraer el ID dinámico de la barra de direcciones de forma limpia
+            // 1. El mismo método exacto que acabamos de validar con éxito
             var urlCompleta = window.location.href;
             var posicionId = urlCompleta.indexOf("?id=");
             var idPrestamo = "";
@@ -48,39 +39,31 @@
                 idPrestamo = idExtraido.substring(0, 12);
             }
 
-            // 2. Si el ID es válido, fabricamos el marco y lo ocultamos hasta que termine
+            // 2. Si el ID es correcto (12 caracteres), inyectamos tu script estable de Google
             if (idPrestamo && idPrestamo.length === 12) {
-                // Tu URL de producción dinámica y unificada (¡Ya no está fija!)
-                var urlScriptGoogle ="https://script.google.com/macros/s/AKfycbwhJ2VUAjQx2lau2g40BMmtrQdhsy7K7rN_RwcEeNTfV0Lwweo4LMMzLPGyRgnz2Va0Ug/exec?id=" + idPrestamo;
+                // Ocultamos el mensaje de carga
+                document.getElementById("pantalla-carga").style.display = "none";
 
-
+                // Tu URL de producción de Google Apps Script 100% estable    
+                 var urlScriptGoogle ="https://script.google.com/macros/s/AKfycbwhJ2VUAjQx2lau2g40BMmtrQdhsy7K7rN_RwcEeNTfV0Lwweo4LMMzLPGyRgnz2Va0Ug/exec?id=" + idPrestamo;
+               // var urlScriptGoogle ="https://script.google.com/macros/s/AKfycbwhJ2VUAjQx2lau2g40BMmtrQdhsy7K7rN_RwcEeNTfV0Lwweo4LMMzLPGyRgnz2Va0Ug/exec?id=26003115800G"
+                // Creamos el marco que ocupará toda la pantalla de forma limpia
                 var iframe = document.createElement('iframe');
                 iframe.src = urlScriptGoogle;
                 iframe.style.width = "100%";
                 iframe.style.height = "100%";
                 iframe.style.border = "none";
-                iframe.style.display = "none"; // Se mantiene oculto para que no se vea el proceso de carga de Google
-                
-                // TRUCO DE FLUIDEZ: Cuando el contenido de Google esté 100% renderizado, hacemos el cambio
-                iframe.onload = function() {
-                    document.getElementById("pantalla-carga").style.display = "none"; // Oculta el spinner
-                    iframe.style.display = "block"; // Muestra la interfaz de golpe ocultando el banner azul
-                };
                 
                 document.body.appendChild(iframe);
             } else {
                 document.getElementById("pantalla-carga").innerHTML = 
-                    '<div class="text-center p-4">' +
-                    '<h2 class="text-danger fw-bold">⚠️ Enlace inválido</h2>' +
-                    '<p class="text-muted">No se ha detectado el código del préstamo. Por favor, utiliza el enlace completo de WhatsApp.</p>' +
-                    '</div>';
+                    '<p style="color:#d9534f; font-weight:bold; font-size:1.5rem;">⚠️ Enlace inválido</p>' +
+                    '<p style="font-size:1rem; color:#6c757d;">No se ha detectado el código del préstamo en la URL. Por favor, utiliza el enlace completo de WhatsApp.</p>';
             }
         } catch (error) {
             document.getElementById("pantalla-carga").innerHTML = 
-                '<div class="text-center p-4"><p class="text-danger">Error de carga: ' + error.message + '</p></div>';
+                '<p style="color:#d9534f;">Error de lectura en el navegador. Por favor, refresque la página.</p>';
         }
     </script>
 </body>
 </html>
-
-               
