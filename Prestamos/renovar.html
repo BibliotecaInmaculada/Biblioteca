@@ -1,41 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba de Diagnóstico Biblioteca</title>
+    <style>
+        body {
+            background-color: #eef2f7;
+            font-family: sans-serif;
+            text-align: center;
+            padding-top: 100px;
+        }
+        .caja-prueba {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            display: inline-block;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .id-detectado {
+            font-size: 2.5rem;
+            color: #1e3d59;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-top: 20px;
+            background-color: #f1f5f9;
+            padding: 10px 20px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="caja-prueba">
+        <h2>🔬 Prueba de Lectura de WhatsApp</h2>
+        <p>El código JavaScript ha extraído de la URL el siguiente identificador:</p>
+        <div id="resultado-id" class="id-detectado">Buscando ID...</div>
+    </div>
+
     <script>
         try {
-            // 1. Extraer el ID directamente de la barra de direcciones de forma limpia
+            // 1. Capturar la URL completa del navegador
             var urlCompleta = window.location.href;
-            var idPrestamo = "";
-
-            if (urlCompleta.indexOf("?id=") !== -1) {
-                var partes = urlCompleta.split("?id=");
-                if (partes.length > 1) {
-                    // CORREGIDO: Aplicamos el corte sobre el texto limpio (partes[1]) y no sobre la lista
-                    var idExtraido = partes[1].trim();
-                    idPrestamo = idExtraido.substring(0, 12);
-                }
-            }
-
-            // 2. Si el ID es correcto (12 caracteres), fabricamos el marco invisible
-            if (idPrestamo && idPrestamo.length === 12) {
-                // Ocultamos el mensaje de carga
-                document.getElementById("pantalla-carga").style.display = "none";
-
-                // Tu URL de producción de Google Apps Script 100% estable
-                var urlScriptGoogle = "https://google.com" + idPrestamo;
-
-                // Creamos el iframe que ocupará toda la pantalla
-                var iframe = document.createElement('iframe');
-                iframe.src = urlScriptGoogle;
-                iframe.style.width = "100%";
-                iframe.style.height = "100%";
-                iframe.style.border = "none";
+            
+            // 2. Buscar dónde empieza el parámetro "?id="
+            var posicionId = urlCompleta.indexOf("?id=");
+            
+            if (posicionId !== -1) {
+                // Cortamos el texto justo después de "?id=" (sumamos 4 caracteres que mide "?id=")
+                var idExtraido = urlCompleta.substring(posicionId + 4);
                 
-                document.body.appendChild(iframe);
+                // Limpiamos los primeros 12 caracteres estrictos
+                var idLimpio = idExtraido.substring(0, 12);
+                
+                // 3. Pintar el resultado directamente en la pantalla
+                document.getElementById("resultado-id").innerText = idLimpio;
             } else {
-                document.getElementById("pantalla-carga").innerHTML = 
-                    '<p style="color:#d9534f; font-weight:bold; font-size:1.5rem;">⚠️ Enlace inválido</p>' +
-                    '<p style="font-size:1rem; color:#6c757d;">No se ha detectado el código del préstamo en la URL. Por favor, utiliza el enlace completo de WhatsApp.</p>';
+                document.getElementById("resultado-id").innerText = "ERROR: No hay ?id= en la URL";
+                document.getElementById("resultado-id").style.color = "red";
             }
         } catch (error) {
-            document.getElementById("pantalla-carga").innerHTML = 
-                '<p style="color:#d9534f;">Error de lectura en el navegador. Por favor, refresque la página.</p>';
+            document.getElementById("resultado-id").innerText = "FALLO INTERNO: " + error.message;
+            document.getElementById("resultado-id").style.color = "red";
         }
     </script>
+</body>
+</html>
