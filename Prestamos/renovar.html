@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca Parroquial - Renovación Online</title>
-    <!-- Bootstrap para la pantalla de carga limpia -->
+    <!-- Cargamos Bootstrap únicamente para usar sus estilos de carga limpios -->
     <link href="https://jsdelivr.net" rel="stylesheet">
     <style>
         html, body {
@@ -12,6 +12,7 @@
             padding: 0;
             width: 100%;
             height: 100%;
+            overflow: hidden;
             background-color: #f8f9fa;
             font-family: sans-serif;
         }
@@ -22,21 +23,22 @@
             align-items: center;
             height: 100vh;
             color: #1e3d59;
+            background-color: #f8f9fa;
         }
     </style>
 </head>
 <body>
 
-    <!-- Indicador de carga estético -->
+    <!-- Indicador de carga estético y profesional -->
     <div id="pantalla-carga" class="pantalla-espera">
         <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
         <div class="mt-3 fw-bold fs-5">Conectando con la Biblioteca Parroquial...</div>
-        <div class="text-muted small">Por favor, espera un momento mientras cargamos tu préstamo.</div>
+        <div class="text-muted small">Por favor, espera un momento.</div>
     </div>
 
     <script>
         try {
-            // 1. Extraer el ID dinámico de la URL de GitHub
+            // 1. Extraer el ID dinámico de la barra de direcciones de forma limpia
             var urlCompleta = window.location.href;
             var posicionId = urlCompleta.indexOf("?id=");
             var idPrestamo = "";
@@ -46,17 +48,25 @@
                 idPrestamo = idExtraido.substring(0, 12);
             }
 
-            // 2. Si el ID es correcto, saltamos directamente a Google Apps Script
+            // 2. Si el ID es válido, fabricamos el marco e interceptamos su carga
             if (idPrestamo && idPrestamo.length === 12) {
-                
-                // TRUCO: Añadimos "&output=embed" al final de tu URL. 
-                // Esto fuerza a Google a renderizar la web limpia y sin el banner azul superior.
-                // var urlScriptGoogle ="https://script.google.com/a/~/macros/s/AKfycbz4FNaVDdKDU_wveSctaPkc8SrMPSNrtueFAnbE-rQX-FWEy_qWWFqmh8XwxThe_44TAg/exec?id=" + idPrestamo
+                // Tu URL de producción de Google Apps Script unificada y estable
+                var urlScriptGoogle ="https://script.google.com/a/~/macros/s/AKfycbz4FNaVDdKDU_wveSctaPkc8SrMPSNrtueFAnbE-rQX-FWEy_qWWFqmh8XwxThe_44TAg/exec?id=" + idPrestamo
 + "&output=embed";
-                var urlScriptGoogle ="https://script.google.com/macros/s/AKfycbz4FNaVDdKDU_wveSctaPkc8SrMPSNrtueFAnbE-rQX-FWEy_qWWFqmh8XwxThe_44TAg/exec?id=26003115800G&output=embed";
-                // Redirección directa de la pestaña (Elimina el error de Google Drive en móviles)
-                  window.location.href=urlScriptGoogle;
-
+                var iframe = document.createElement('iframe');
+                iframe.src = urlScriptGoogle;
+                iframe.style.width = "100%";
+                iframe.style.height = "100%";
+                iframe.style.border = "none";
+                iframe.style.display = "none"; // Lo mantenemos oculto mientras descarga
+                
+                // TRUCO DE FLUIDEZ: Cuando el contenido de Google esté 100% cargado, hacemos el cambio
+                iframe.onload = function() {
+                    document.getElementById("pantalla-carga").style.display = "none"; // Oculta el spinner
+                    iframe.style.display = "block"; // Muestra la biblioteca de golpe
+                };
+                
+                document.body.appendChild(iframe);
             } else {
                 document.getElementById("pantalla-carga").innerHTML = 
                     '<div class="text-center p-4">' +
@@ -66,10 +76,11 @@
             }
         } catch (error) {
             document.getElementById("pantalla-carga").innerHTML = 
-                '<div class="text-center p-4"><p class="text-danger">Error de redirección: ' + error.message + '</p></div>';
+                '<div class="text-center p-4"><p class="text-danger">Error de carga: ' + error.message + '</p></div>';
         }
     </script>
 </body>
 </html>
-
+               
+ 
                
