@@ -21,65 +21,48 @@
             font-size: 1.2rem;
             font-weight: bold;
         }
-
-        /* 🖥️ TRUCO MAESTRO: El iframe ocupa todo el alto, pero limitamos su ancho máximo en PC */
-        .iframe-centrado {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: none; /* Oculto durante la carga */
-        }
-
-        /* Si es una computadora (pantallas grandes), estrechamos el iframe y lo centramos horizontalmente */
-        @media (min-width: 768px) {
-            .iframe-centrado {
-                max-width: 700px; /* Ancho ideal de lectura tipo tarjeta */
-                margin: 0 auto;   /* Centra el iframe perfectamente en medio de la pantalla */
-                box-shadow: 0 0 20px rgba(0,0,0,0.05); /* Sutil sombra a los lados */
-                background-color: #ffffff;
-            }
-        }
     </style>
 </head>
 <body>
 
-    <div id="pantalla-carga" class="mensaje-carga">Conectando de forma segura con el sistema de la biblioteca...</div>
+    <div id="pantalla-carga" class="mensaje-carga">
+        Conectando de forma segura con el sistema de la biblioteca...
+    </div>
 
     <script>
         try {
-            // 1. Extracción limpia de tu ID dinámico de WhatsApp
+            // 1. El mismo método exacto que acabamos de validar con éxito
             var urlCompleta = window.location.href;
             var posicionId = urlCompleta.indexOf("?id=");
             var idPrestamo = "";
-            
+
             if (posicionId !== -1) {
                 var idExtraido = urlCompleta.substring(posicionId + 4);
                 idPrestamo = idExtraido.substring(0, 12);
             }
 
-            // 2. Si el ID es correcto, inyectamos el iframe elástico
+            // 2. Si el ID es correcto (12 caracteres), inyectamos tu script estable de Google
             if (idPrestamo && idPrestamo.length === 12) {
-                
-                // Tu URL de producción estable
-                   var urlScriptGoogle = "https://script.google.com/macros/s/AKfycbzy_5uOsH0cpG9G6Vmw0G1UxMIvLnbNtIxQPuWqbU_iYLjzEvgqUuXXRoX30BRy_maehQ/exec?id=" + idPrestamo + "&output=embed";
+                // Ocultamos el mensaje de carga
+                document.getElementById("pantalla-carga").style.display = "none";
+
+                // Tu URL de producción de Google Apps Script 100% estable
+                // var urlScriptGoogle = "https://script.google.com/macros/s/AKfycbzEYWDglvTB-IrdSYwaEmhuqDPzNg79b84w6OzhIVuTPWP81IDrdJhC4X9wAEil40irhg/exec?id=" + idPrestamo;
+                 var urlScriptGoogle = "https://script.google.com/a/~/macros/s/AKfycbzy_5uOsH0cpG9G6Vmw0G1UxMIvLnbNtIxQPuWqbU_iYLjzEvgqUuXXRoX30BRy_maehQ/exec?id=" + idPrestamo + "&output=embed";
                 //var urlScriptGoogle ="https://script.google.com/a/~/macros/s/AKfycbz4FNaVDdKDU_wveSctaPkc8SrMPSNrtueFAnbE-rQX-FWEy_qWWFqmh8XwxThe_44TAg/exec?id=" + idPrestamo;
 //+ "&output=embed";
-                
+                // Creamos el marco que ocupará toda la pantalla de forma limpia
                 var iframe = document.createElement('iframe');
                 iframe.src = urlScriptGoogle;
-                iframe.className = "iframe-centrado"; // Aplicamos nuestra clase elástica
-                
-                // En cuanto Google responde, el intercambio visual es instantáneo
-                iframe.onload = function() {
-                    document.getElementById("pantalla-carga").style.display = "none"; 
-                    iframe.style.display = "block"; 
-                };
+                iframe.style.width = "100%";
+                iframe.style.height = "100%";
+                iframe.style.border = "none";
                 
                 document.body.appendChild(iframe);
             } else {
                 document.getElementById("pantalla-carga").innerHTML = 
-                    '<p style="color:#d9534f; font-weight:bold; font-size:1.5rem;">⚠️ Enlace inválido</p>' +
-                    '<p style="font-size:1rem; color:#6c757d;">No se ha detectado el código del préstamo. Por favor, utiliza el enlace completo de WhatsApp.</p>';
+                    '<p style="color:#d9534f; font-weight:bold; font-size:1.5rem;">⚠️ Enlace inválido</p>' + 
+                    '<p style="font-size:1rem; color:#6c757d;">No se ha detectado el código del préstamo en la URL. Por favor, utiliza el enlace completo de WhatsApp.</p>';
             }
         } catch (error) {
             document.getElementById("pantalla-carga").innerHTML = 
@@ -89,4 +72,6 @@
 </body>
 </html>
 
-             
+                
+                
+ 
