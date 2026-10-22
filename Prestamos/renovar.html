@@ -4,76 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca Parroquial - Renovación Online</title>
-    <!-- Cargamos Bootstrap únicamente para la maquetación exterior y la pantalla de carga -->
-    <link href="https://jsdelivr.net" rel="stylesheet">
     <style>
         html, body {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
+            overflow: hidden;
             background-color: #f8f9fa;
             font-family: sans-serif;
         }
+        .mensaje-carga {
+            text-align: center;
+            padding-top: 50px;
+            color: #1e3d59;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
 
-        /* DISEÑO DE ESCRITORIO (PC): Centra el bloque del iframe en forma de tarjeta elegante */
-        .contenedor-marco-seguro {
+        /* 🖥️ TRUCO MAESTRO: El iframe ocupa todo el alto, pero limitamos su ancho máximo en PC */
+        .iframe-centrado {
             width: 100%;
             height: 100%;
-            display: none; /* Se activa dinámicamente mediante JS */
-            box-sizing: border-box;
+            border: none;
+            display: none; /* Oculto durante la carga */
         }
 
-        /* Pantalla de carga estética */
-        .pantalla-espera {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            color: #1e3d59;
-            background-color: #f8f9fa;
-        }
-
-        /* ======================================================= */
-        /* 🖥️ CONFIGURACIÓN EXCLUSIVA PARA PC (Pantallas grandes)  */
-        /* ======================================================= */
+        /* Si es una computadora (pantallas grandes), estrechamos el iframe y lo centramos horizontalmente */
         @media (min-width: 768px) {
-            body {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                padding: 40px 0;
-            }
-            .contenedor-marco-seguro {
-                max-width: 700px;    /* Ancho de tarjeta generoso y legible en PC */
-                max-height: 850px;   /* Altura límite para que no se deforme en monitores */
-                height: 100%;
-                background: #ffffff;
-                border-radius: 12px;
-                box-shadow: 0 4px 25px rgba(0,0,0,0.06); /* Sutil sombra profesional */
-                overflow: hidden;    /* Mantiene las esquinas de Google redondeadas */
+            .iframe-centrado {
+                max-width: 700px; /* Ancho ideal de lectura tipo tarjeta */
+                margin: 0 auto;   /* Centra el iframe perfectamente en medio de la pantalla */
+                box-shadow: 0 0 20px rgba(0,0,0,0.05); /* Sutil sombra a los lados */
+                background-color: #ffffff;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Indicador de carga centrado profesionalmente -->
-    <div id="pantalla-carga" class="pantalla-espera">
-        <div class="text-center p-4">
-            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
-            <div class="mt-3 fw-bold fs-5">Conectando de forma segura con la biblioteca...</div>
-            <div class="text-muted small">Por favor, espera un momento.</div>
-        </div>
-    </div>
-
-    <!-- Contenedor exterior que se encarga de centrar la interfaz de Google en PC -->
-    <div id="wrapper-seguro" class="contenedor-marco-seguro"></div>
+    <div id="pantalla-carga" class="mensaje-carga">Conectando de forma segura con el sistema de la biblioteca...</div>
 
     <script>
         try {
-            // 1. Extracción del ID dinámico de la barra de direcciones de WhatsApp
+            // 1. Extracción limpia de tu ID dinámico de WhatsApp
             var urlCompleta = window.location.href;
             var posicionId = urlCompleta.indexOf("?id=");
             var idPrestamo = "";
@@ -83,44 +57,36 @@
                 idPrestamo = idExtraido.substring(0, 12);
             }
 
-            // Para tus pruebas locales fijas, puedes descomentar la siguiente línea:
-            // idPrestamo = "26003115800G";
-
-            // 2. Si el ID es correcto, fabricamos el iframe y dejamos que GitHub lo centre en PC
+            // 2. Si el ID es correcto, inyectamos el iframe elástico
             if (idPrestamo && idPrestamo.length === 12) {
                 
-                // Tu URL de producción con el parche multicuenta y el modo embed estables
-                var urlScriptGoogle = "https://script.google.com/macros/s/AKfycbzy_5uOsH0cpG9G6Vmw0G1UxMIvLnbNtIxQPuWqbU_iYLjzEvgqUuXXRoX30BRy_maehQ/exec?id=" + idPrestamo + "&output=embed";
+                // Tu URL de producción estable
+                   var urlScriptGoogle = "https://script.google.com/macros/s/AKfycbzy_5uOsH0cpG9G6Vmw0G1UxMIvLnbNtIxQPuWqbU_iYLjzEvgqUuXXRoX30BRy_maehQ/exec?id=" + idPrestamo + "&output=embed";
                 //var urlScriptGoogle ="https://script.google.com/a/~/macros/s/AKfycbz4FNaVDdKDU_wveSctaPkc8SrMPSNrtueFAnbE-rQX-FWEy_qWWFqmh8XwxThe_44TAg/exec?id=" + idPrestamo;
 //+ "&output=embed";
+                
                 var iframe = document.createElement('iframe');
                 iframe.src = urlScriptGoogle;
-                iframe.style.width = "100%";
-                iframe.style.height = "100%";
-                iframe.style.border = "none";
+                iframe.className = "iframe-centrado"; // Aplicamos nuestra clase elástica
                 
-                // Cuando los servidores de Google terminen de responder, hacemos la transición visual
+                // En cuanto Google responde, el intercambio visual es instantáneo
                 iframe.onload = function() {
-                    document.getElementById("pantalla-carga").style.display = "none"; // Oculta la carga
-                    var contenedor = document.getElementById("wrapper-seguro");
-                    contenedor.style.display = "block"; // Muestra el bloque centrado en PC y fluido en móvil
+                    document.getElementById("pantalla-carga").style.display = "none"; 
+                    iframe.style.display = "block"; 
                 };
                 
-                document.getElementById("wrapper-seguro").appendChild(iframe);
-
+                document.body.appendChild(iframe);
             } else {
                 document.getElementById("pantalla-carga").innerHTML = 
-                    '<div class="text-center p-4">' +
-                    '<h2 class="text-danger fw-bold fs-4">⚠️ Enlace inválido</h2>' +
-                    '<p class="text-muted mt-2">No se ha detectado el código del préstamo de forma correcta.</p>' +
-                    '</div>';
+                    '<p style="color:#d9534f; font-weight:bold; font-size:1.5rem;">⚠️ Enlace inválido</p>' +
+                    '<p style="font-size:1rem; color:#6c757d;">No se ha detectado el código del préstamo. Por favor, utiliza el enlace completo de WhatsApp.</p>';
             }
         } catch (error) {
             document.getElementById("pantalla-carga").innerHTML = 
-                '<div class="text-center p-4"><p class="text-danger">Error de procesamiento: ' + error.message + '</p></div>';
+                '<p style="color:#d9534f;">Error de lectura en el navegador. Por favor, refresque la página.</p>';
         }
     </script>
 </body>
 </html>
 
-
+             
