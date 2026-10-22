@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca Parroquial - Renovación Online</title>
-    <!-- Cargamos Bootstrap 5 oficial para asegurar que el spinner estético funcione siempre -->
+    <!-- Bootstrap para la pantalla de carga limpia -->
     <link href="https://jsdelivr.net" rel="stylesheet">
     <style>
         html, body {
@@ -15,67 +15,28 @@
             background-color: #f8f9fa;
             font-family: sans-serif;
         }
-        
-        /* Contenedor invisible para centrar el iframe de Google */
-        .iframe-container {
-            width: 100%;
-            height: 100%;
-            display: none; /* Se activa dinámicamente mediante JS */
-        }
-
-        /* Pantalla de carga y errores perfectamente centrada */
         .pantalla-espera {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            height: 100vh;
             color: #1e3d59;
-            background-color: #f8f9fa;
-            box-sizing: border-box;
-        }
-
-        /* DISEÑO MÓVIL: Contenedor estético para centrar el contenido y limitar el ancho en PC */
-        .contenedor-principal {
-            width: 100%;
-            max-width: 600px; /* Ancho perfecto para lectura y legibilidad */
-            margin: 0 auto;   /* Centra todo el bloque horizontalmente */
-            padding: 24px;
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Sutil sombra elegante */
-            text-align: left;
-        }
-
-        /* Asegura que la imagen de la bandeja negra nunca se salga de la pantalla del móvil */
-        .imagen-adaptable {
-            width: 100%;
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin-top: 15px;
-            margin-bottom: 15px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Indicador de carga estético y optimizado para móviles -->
+    <!-- Indicador de carga estético -->
     <div id="pantalla-carga" class="pantalla-espera">
-        <div class="contenedor-principal text-center">
-            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
-            <div class="mt-3 fw-bold fs-5">Conectando con la Biblioteca Parroquial...</div>
-            <div class="text-muted small">Por favor, espera un momento.</div>
-        </div>
+        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
+        <div class="mt-3 fw-bold fs-5">Conectando con la Biblioteca Parroquial...</div>
+        <div class="text-muted small">Por favor, espera un momento mientras cargamos tu préstamo.</div>
     </div>
-
-    <!-- Contenedor del marco para que ocupe toda la pantalla de forma nativa -->
-    <div id="wrapper-iframe" class="iframe-container"></div>
 
     <script>
         try {
-            // 1. Extraer el ID dinámico de la barra de direcciones de forma limpia
+            // 1. Extraer el ID dinámico de la URL de GitHub
             var urlCompleta = window.location.href;
             var posicionId = urlCompleta.indexOf("?id=");
             var idPrestamo = "";
@@ -85,44 +46,30 @@
                 idPrestamo = idExtraido.substring(0, 12);
             }
 
-            // 2. Si el ID es válido, fabricamos el marco oculto de Google
+            // 2. Si el ID es correcto, saltamos directamente a Google Apps Script
             if (idPrestamo && idPrestamo.length === 12) {
-                // Tu URL de producción dinámica y unificada (Recuerda quitar el ID fijo al subir a producción)
-                 var urlScriptGoogle ="https://script.google.com/macros/s/AKfycbz4FNaVDdKDU_wveSctaPkc8SrMPSNrtueFAnbE-rQX-FWEy_qWWFqmh8XwxThe_44TAg/exec?id=" + idPrestamo;
-
-
-                var iframe = document.createElement('iframe');
-                iframe.src = urlScriptGoogle;
-                iframe.style.width = "100%";
-                iframe.style.height = "100%";
-                iframe.style.border = "none";
                 
-                // Cuando el contenido de Google esté 100% renderizado, hacemos el cambio fluido
-                iframe.onload = function() {
-                    document.getElementById("pantalla-carga").style.display = "none"; // Oculta el spinner
-                    var contenedorIframe = document.getElementById("wrapper-iframe");
-                    contenedorIframe.style.display = "block"; // Muestra el contenedor del iframe
-                };
+                // TRUCO: Añadimos "&output=embed" al final de tu URL. 
+                // Esto fuerza a Google a renderizar la web limpia y sin el banner azul superior.
+                 var urlScriptGoogle ="https://script.google.com/macros/s/AKfycbz4FNaVDdKDU_wveSctaPkc8SrMPSNrtueFAnbE-rQX-FWEy_qWWFqmh8XwxThe_44TAg/exec?id=" + idPrestamo
++ "&output=embed";
                 
-                document.getElementById("wrapper-iframe").appendChild(iframe);
+                // Redirección directa de la pestaña (Elimina el error de Google Drive en móviles)
+                window.location.replace(urlScriptGoogle);
+
             } else {
-                // Mensaje de error adaptado y centrado para dispositivos móviles
                 document.getElementById("pantalla-carga").innerHTML = 
-                    '<div class="contenedor-principal text-center">' +
-                    '<h2 class="text-danger fw-bold fs-4">⚠️ Enlace inválido</h2>' +
-                    '<p class="text-muted mt-2">No se ha detectado el código del préstamo de 12 dígitos.</p>' +
-                    '<p class="small text-secondary">Por favor, asegúrate de pulsar sobre el enlace completo recibido por WhatsApp.</p>' +
+                    '<div class="text-center p-4">' +
+                    '<h2 class="text-danger fw-bold">⚠️ Enlace inválido</h2>' +
+                    '<p class="text-muted">No se ha detectado el código del préstamo. Por favor, utiliza el enlace completo de WhatsApp.</p>' +
                     '</div>';
             }
         } catch (error) {
             document.getElementById("pantalla-carga").innerHTML = 
-                '<div class="contenedor-principal text-center">' +
-                '<p class="text-danger fw-bold">Error de carga:</p>' +
-                '<p class="small text-muted">' + error.message + '</p>' +
-                '</div>';
+                '<div class="text-center p-4"><p class="text-danger">Error de redirección: ' + error.message + '</p></div>';
         }
     </script>
 </body>
 </html>
 
-                
+               
