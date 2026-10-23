@@ -241,9 +241,47 @@
                     </div>
                     <p class="text-muted small">Recuerda devolverlo tan pronto como termines de leerlo para que otros feligreses puedan disfrutarlo.</p>
                   </div>
-                  <div class="mt-4">
-                    <p class="text-primary fw-medium small">Ya has terminado, puedes cerrar esta página.</p>
+                                    <!-- BOTÓN INTELIGENTE PARA YA RENOVADO -->
+                  <div style="text-align: center; margin-top: 20px;">
+                    <button id="btnCerrarYaRenovado" style="
+                        background-color: #0056b3;
+                        color: white;
+                        border: none;
+                        border-radius: 6px;
+                        padding: 10px 24px;
+                        font-size: 15px;
+                        font-weight: bold;
+                        cursor: pointer;
+                        transition: background-color 0.2s;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+                        width: 100%;
+                        max-width: 200px;
+                    ">
+                        Cerrar Ventana
+                    </button>
+                    <p id="notaCerrarYaRenovado" style="color: #7f8c8d; font-size: 13px; margin-top: 10px; display: none; font-weight: 500;">
+                        Ya puedes cerrar esta pestaña manualmente en tu navegador.
+                    </p>
                   </div>`;
+
+       // LOGICA DE ACCIÓN (Pégala justo debajo del punto y coma anterior)
+       setTimeout(() => {
+           const btn = document.getElementById("btnCerrarYaRenovado");
+           if (btn) {
+               btn.addEventListener("click", function() {
+                   window.close();
+                   setTimeout(function() {
+                       if (!window.closed) {
+                           btn.textContent = "Entendido";
+                           btn.style.backgroundColor = "#6c757d";
+                           btn.style.cursor = "default";
+                           document.getElementById("notaCerrarYaRenovado").style.display = "block";
+                       }
+                   }, 250);
+               });
+           }
+       }, 100);
+
            }
        }
 
