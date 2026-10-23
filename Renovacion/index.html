@@ -351,130 +351,82 @@
        }
 
        
-       function finalizar() {
+        function finalizar() {
          Swal.fire({
            icon: "success",
            title: "¡Préstamo Renovado!",
            text: "Muchas gracias. Recuerda devolver el libro tan pronto como termines de leerlo.",
            showConfirmButton: true,
-           confirmButtonText: "Cerrar Ventana", // Cambiamos el texto para invitar al cierre
+           confirmButtonText: "Cerrar Ventana",
            confirmButtonColor: "#0d6efd",
            customClass: {
              confirmButton: 'px-4 py-2 rounded-3 fw-bold'
            },
            buttonsStyling: true
          }).then((result) => {
-           // Esta lógica se ejecuta INMEDIATAMENTE cuando el feligrés pulsa el botón
            if (result.isConfirmed) {
-             // 1. Intento de cierre nativo directo (Ideal para el móvil desde WhatsApp)
+             // 1. Intento de cierre nativo directo (Para el móvil desde WhatsApp)
              window.close();
              
-             // 2. Salvaguarda inteligente si sigue abierta tras 250ms (Caso típico de PC)
+             // 2. Salvaguarda si la pestaña sigue abierta a los 250ms (Bloqueo en PC o navegadores móviles estrictos)
              setTimeout(function() {
                if (!window.closed) {
-                 // En lugar de un alert molesto, modificamos el pop-up de SweetAlert en caliente
-                 Swal.fire({
-                   icon: "info",
-                   title: "¡Todo Listo!",
-                   text: "Por seguridad de tu dispositivo, ya puedes cerrar esta pestaña manualmente en tu navegador.",
-                   showConfirmButton: false, // Quitamos el botón para romper cualquier bucle
-                   timer: 4000 // Se cerrará solo a los 4 segundos si no lo hace el usuario antes
-                 });
+                 const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+                 if (esMovil) {
+                     // Si no puede cerrar la pestaña en el móvil, abre WhatsApp de vuelta
+                     window.location.href = "whatsapp://";
+                 } else {
+                     // En ordenadores de escritorio modifica el modal flotante sin alertas del sistema
+                     Swal.fire({
+                       icon: "info",
+                       title: "¡Todo Listo!",
+                       text: "Por seguridad de tu dispositivo, ya puedes cerrar esta pestaña manualmente en tu navegador.",
+                       showConfirmButton: false,
+                       timer: 4000
+                     });
+                 }
                }
              }, 250);
            }
          });
        }
 
+       function mostrarError(mensaje) {
+           // CORRECCIÓN DE CONTENEDOR: Apuntamos al div real de tu base original ("contenidoWeb")
+           const contenedor = document.getElementById("contenidoWeb") || document.body; 
 
+           // Inyectamos la estructura visual centrada adaptando el botón de Bootstrap 
+           contenedor.innerHTML = `
+               <div id="tarjeta-alerta-contenido" class="py-4" style="text-align: center;">
+                   <div style="font-size: 54px; margin-bottom: 16px; color: #dc3545;">⚠️</div>
+                   <p style="font-size: 18px; line-height: 1.6; color: #2c3e50; margin: 0 0 24px 0; font-weight: 500;">${mensaje}</p>
+                   <button id="btnAccionError" class="btn btn-primary shadow-sm" style="padding: 10px 24px; font-size: 16px; font-weight: bold; width: 100%; max-width: 220px;">Cerrar Ventana</button>
+               </div>
+           `;
 
-function mostrarError(mensaje) {
-    // 1. Buscamos el contenedor principal de tu página
-    const contenedor = document.getElementById("contenedor-error") || document.body; 
+           // Asignamos la acción inteligente coordinada al botón de error
+           document.getElementById("btnAccionError").addEventListener("click", function() {
+               window.close();
+               setTimeout(function() {
+                   if (!window.closed) {
+                       const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+                       if (esMovil) {
+                           window.location.href = "whatsapp://";
+                       } else {
+                           const tarjeta = document.getElementById("tarjeta-alerta-contenido");
+                           if (tarjeta) {
+                               tarjeta.innerHTML = `
+                                   <div style="font-size: 54px; margin-bottom: 16px; color: #198754;">✓</div>
+                                   <p style="font-size: 19px; line-height: 1.6; color: #212529; font-weight: bold; margin-bottom: 10px;">Entendido</p>
+                                   <p style="font-size: 15px; color: #6c757d; margin: 0; padding: 0 10px;">Por seguridad de tu ordenador, ya puedes cerrar esta pestaña manualmente desde el administrador de tu navegador.</p>
+                               `;
+                           }
+                       }
+                   }
+               }, 250);
+           });
+       }
+    </script>
+</body>
 
-    // 2. Inyectamos la estructura visual con la tarjeta centrada y letra grande (18px)
-    contenedor.innerHTML = `
-        <div id="pantalla-error-container" style="
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 60vh;
-            padding: 20px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            box-sizing: border-box;
-        ">
-            <div id="tarjeta-alerta-contenido" style="
-                background-color: #ffffff;
-                border-top: 4px solid #dc3545;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-                border-radius: 8px;
-                padding: 32px 24px;
-                max-width: 500px;
-                width: 100%;
-                text-align: center;
-            ">
-                <!-- Icono de advertencia visual -->
-                <div style="font-size: 48px; margin-bottom: 16px; color: #dc3545;">⚠️</div>
-                
-                <!-- Mensaje principal optimizado para PC y Móvil -->
-                <p style="
-                    font-size: 18px;
-                    line-height: 1.6;
-                    color: #2c3e50;
-                    margin: 0 0 24px 0;
-                    font-weight: 500;
-                ">
-                    ${mensaje}
-                </p>
-                
-                <!-- Botón de acción único -->
-                <button id="btnAccionError" style="
-                    background-color: #0056b3;
-                    color: white;
-                    border: none;
-                    border-radius: 6px;
-                    padding: 12px 32px;
-                    font-size: 16px;
-                    font-weight: bold;
-                    cursor: pointer;
-                    transition: background-color 0.2s;
-                    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-                ">
-                    Cerrar Ventana
-                </button>
-            </div>
-        </div>
-    `;
-
-    // 3. Lógica de cierre inteligente y limpia (Sin Alerts de sistema)
-    document.getElementById("btnAccionError").addEventListener("click", function() {
-        // Intento de cierre nativo directo
-        window.close();
-        
-        // Si la pestaña sigue abierta a los 200ms (bloqueo de seguridad del navegador en PC o Móvil)
-        setTimeout(function() {
-            if (!window.closed) {
-                // Modificamos el contenido de la tarjeta de forma elegante en lugar de lanzar un alert
-                const tarjeta = document.getElementById("tarjeta-alerta-contenido");
-                if (tarjeta) {
-                    tarjeta.innerHTML = `
-                        <div style="font-size: 48px; margin-bottom: 16px; color: #28a745;">✓</div>
-                        <p style="font-size: 18px; line-height: 1.6; color: #2c3e50; font-weight: 500; margin-bottom: 10px;">
-                            Entendido
-                        </p>
-                        <p style="font-size: 15px; color: #7f8c8d; margin: 0;">
-                            Por seguridad de tu dispositivo, ya puedes cerrar esta pestaña manualmente desde el administrador de tu navegador.
-                        </p>
-                    `;
-                }
-            }
-        }, 200);
-    });
-}
-
-
-
-     </script>
-  </body>
 </html>
