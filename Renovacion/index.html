@@ -228,10 +228,11 @@
                   
                   <div class="text-start text-secondary small">
                      <p class="fw-bold text-dark mb-2">📌 ¿Quieres devolverlo?</p>
-                     <p class="mb-2">Llévalo a la Parroquia y déjalo sobre la siguiente <strong>bandeja negra</strong>:</p>
+                     <p class="mb-2">Llévalo a la Parroquia and déjalo sobre la siguiente <strong>bandeja negra</strong>:</p>
                      <img src="../Fotos/Bandeja Negra.jpg" class="imagen-bandeja" alt="Bandeja negra de devoluciones"/>
                      <p class="mt-3 text-center text-muted italic">... Cuando lo hayas dejado nos avisas.</p>
                   </div>`;
+                  
            } else if (data.tipoVista === "ya_renovado") {
                contenedor.innerHTML = `
                   <div class="text-start">
@@ -241,7 +242,8 @@
                     </div>
                     <p class="text-muted small">Recuerda devolverlo tan pronto como termines de leerlo para que otros feligreses puedan disfrutarlo.</p>
                   </div>
-                                    <!-- BOTÓN INTELIGENTE PARA YA RENOVADO -->
+                  
+                  <!-- BOTÓN INTELIGENTE PARA YA RENOVADO -->
                   <div style="text-align: center; margin-top: 20px;">
                     <button id="btnCerrarYaRenovado" style="
                         background-color: #0056b3;
@@ -264,26 +266,39 @@
                     </p>
                   </div>`;
 
-       // LOGICA DE ACCIÓN (Pégala justo debajo del punto y coma anterior)
-       setTimeout(() => {
-           const btn = document.getElementById("btnCerrarYaRenovado");
-           if (btn) {
-               btn.addEventListener("click", function() {
-                   window.close();
-                   setTimeout(function() {
-                       if (!window.closed) {
-                           btn.textContent = "Entendido";
-                           btn.style.backgroundColor = "#6c757d";
-                           btn.style.cursor = "default";
-                           document.getElementById("notaCerrarYaRenovado").style.display = "block";
-                       }
-                   }, 250);
-               });
-           }
-       }, 100);
-
+               // LÓGICA DE ACCIÓN OPTIMIZADA CON RETORNO A WHATSAPP
+               // Se ejecuta de manera segura una vez que el HTML de arriba se ha inyectado por completo
+               setTimeout(() => {
+                   const btn = document.getElementById("btnCerrarYaRenovado");
+                   if (btn) {
+                       btn.addEventListener("click", function() {
+                           // 1. Intento primario: Cerrar la ventana directamente
+                           window.close();
+                           
+                           // 2. Salvaguarda si la ventana sigue abierta a los 250ms
+                           setTimeout(function() {
+                               if (!window.closed) {
+                                   // Detectamos si el lector está usando un teléfono móvil
+                                   const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+                                   
+                                   if (esMovil) {
+                                       // Truco para móviles restrictivos: lo mandamos de vuelta a WhatsApp
+                                       window.location.href = "whatsapp://";
+                                   } else {
+                                       // Comportamiento en PC: muta a gris elegante
+                                       btn.textContent = "Entendido";
+                                       btn.style.backgroundColor = "#6c757d";
+                                       btn.style.cursor = "default";
+                                       document.getElementById("notaCerrarYaRenovado").style.display = "block";
+                                   }
+                               }
+                           }, 250);
+                       });
+                   }
+               }, 100);
            }
        }
+
 
        function enviarRenovacion() {
          const boton = document.getElementById("Boton");
