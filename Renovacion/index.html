@@ -97,20 +97,81 @@
       <script src="src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
      <script>
        // URL DE TU WEB APP DE GOOGLE APP SCRIPT
-       const URL_API = "https://script.google.com/macros/s/AKfycbwNjXFmtr1badRBC5Y3t69sYw_UFpxF03oHr0oRhnFlVi0YT0Ej2W3FLLs8nfErfaICJA/exec";
+       const URL_API = "https://script.google.com/macros/s/AKfycbxqZCvz75xtMaK0GveKLOs4Ywf9L7cjcdpAc5fi1XIQM0bq22hsmQpLapCJ-V4xWw73LA/exec";
        
        let filaPrestamo = 0;
        let columnaRenovacion = 0;
 
        document.addEventListener("DOMContentLoaded", function() {
            const urlParams = new URLSearchParams(window.location.search);
-           const idPrestamo = urlParams.get('id');
+           const idPrestamoRaw = urlParams.get('id');
 
-           if (!idPrestamo) {
+           if (!idPrestamoRaw) {
                mostrarError("Ha habido algún problema con la URL y no se ha encontrado el identificador de tu préstamo.");
                return;
            }
 
+           const idPrestamo = idPrestamoRaw.trim();
+
+           // =========================================================================
+           // 1. FILTRO DE CONTROL LOCAL DE ESTRUCTURA (Longitud exacta de 20 caracteres)
+           // =========================================================================
+           if (idPrestamo.length !== 20) {
+               document.getElementById("cargando").style.display = "none";
+               mostrarError("La URL de renovación no tiene una estructura válida o está incompleta.");
+               return;
+           }
+
+           // =========================================================================
+           // 2. FILTRO DE CADUCIDAD LOCAL (Enlace válido durante un máximo de 5 días)
+           // =========================================================================
+           const fechaStr = idPrestamo.slice(12, 20); // Extrae la fecha AAAAMMDD
+           const anio = parseInt(fechaStr.slice(0, 4), 10);
+           const mes = parseInt(fechaStr.slice(4, 6), 10) - 1; // Los meses en JavaScript van de 0 a 11
+           const dia = parseInt(fechaStr.slice(6, 8), 10);
+
+           const fechaEmision = new Date(anio, mes, dia);
+           const fechaHoy = new Date();
+
+           // Limpiamos las horas para evaluar días naturales limpios
+           fechaEmision.setHours(0, 0, 0, 0);
+           fechaHoy.setHours(0, 0, 0, 0);
+
+           const diferenciaTiempo = fechaHoy.getTime() - fechaEmision.getTime();
+           const diferenciaDias = Math.floor(diferenciaTiempo / (1000 * 60 * 60 * 24));
+
+           if (diferenciaDias > 5 || diferenciaDias < 0) {
+               document.getElementById("cargando").style.display = "none";
+               mostrarError("Este enlace de renovación ha caducado por seguridad. Por favor, solicita uno nuevo en la biblioteca.");
+               return;
+           }
+
+           // =========================================================================
+           // 3. FILTRO DE SEGURIDAD LOCAL (Cálculo matemático del Módulo 23 con BigInt)
+           // =========================================================================
+           const idClasico = idPrestamo.slice(0, 12); // Primeros 12 caracteres
+           const codigoseguridad = idClasico.slice(-1).toUpperCase(); // Carácter 12 (Índice 11)
+           const numeros = idClasico.slice(0, -1); // Los 11 números base
+
+           try {
+               const id_codigo = Number(BigInt(numeros) % BigInt(23));
+               const tablaLetras = "TRWAGMYFPDXBNJZSQVHLCKE";
+               const letraCalculada = tablaLetras.charAt(id_codigo);
+
+               if (letraCalculada !== codigoseguridad) {
+                   document.getElementById("cargando").style.display = "none";
+                   mostrarError("El código de seguridad del préstamo es incorrecto o el enlace ha sido manipulado.");
+                   return;
+               }
+           } catch (e) {
+               document.getElementById("cargando").style.display = "none";
+               mostrarError("Error al procesar la firma de seguridad del enlace.");
+               return;
+           }
+
+           // =========================================================================
+           // ¡PASADO CON ÉXITO! Lanzamos la petición al servidor de Google
+           // =========================================================================
            fetch(`${URL_API}?action=buscar&id=${idPrestamo}`, {
                method: 'GET',
                mode: 'cors'
@@ -122,8 +183,15 @@
            .then(data => {
                document.getElementById("cargando").style.display = "none";
                
+               // Control por si el servidor devuelve error genérico
                if (data.status === "error") {
                    mostrarError(data.message);
+                   return;
+               }
+
+               // Control por si el servidor detecta un enlace caducado (Doble seguridad)
+               if (data.tipoVista === "enlace_caducado") {
+                   mostrarError(data.message || "Este enlace de renovación ha caducado.");
                    return;
                }
 
@@ -138,6 +206,7 @@
        });
 
        function renderizarInterfaz(data) {
+
            const contenedor = document.getElementById("contenidoWeb");
            
            if (data.tipoVista === "formulario") {
