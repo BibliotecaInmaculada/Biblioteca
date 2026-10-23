@@ -304,14 +304,35 @@
            title: "¡Préstamo Renovado!",
            text: "Muchas gracias. Recuerda devolver el libro tan pronto como termines de leerlo.",
            showConfirmButton: true,
-           confirmButtonText: "Entendido",
+           confirmButtonText: "Cerrar Ventana", // Cambiamos el texto para invitar al cierre
            confirmButtonColor: "#0d6efd",
            customClass: {
              confirmButton: 'px-4 py-2 rounded-3 fw-bold'
            },
            buttonsStyling: true
+         }).then((result) => {
+           // Esta lógica se ejecuta INMEDIATAMENTE cuando el feligrés pulsa el botón
+           if (result.isConfirmed) {
+             // 1. Intento de cierre nativo directo (Ideal para el móvil desde WhatsApp)
+             window.close();
+             
+             // 2. Salvaguarda inteligente si sigue abierta tras 250ms (Caso típico de PC)
+             setTimeout(function() {
+               if (!window.closed) {
+                 // En lugar de un alert molesto, modificamos el pop-up de SweetAlert en caliente
+                 Swal.fire({
+                   icon: "info",
+                   title: "¡Todo Listo!",
+                   text: "Por seguridad de tu dispositivo, ya puedes cerrar esta pestaña manualmente en tu navegador.",
+                   showConfirmButton: false, // Quitamos el botón para romper cualquier bucle
+                   timer: 4000 // Se cerrará solo a los 4 segundos si no lo hace el usuario antes
+                 });
+               }
+             }, 250);
+           }
          });
        }
+
 
 
 function mostrarError(mensaje) {
