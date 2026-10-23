@@ -314,46 +314,97 @@
        }
 
 
-       function mostrarError(mensaje) {
-    // 1. Buscamos el contenedor donde pintas los errores actualmente. 
-    // (Ajusta "contenedor-error" o el ID que use tu HTML)
+function mostrarError(mensaje) {
+    // 1. Buscamos el contenedor principal de tu página (ajusta el ID si usas uno específico)
     const contenedor = document.getElementById("contenedor-error") || document.body; 
     
-    // 2. Inyectamos el mensaje junto con el nuevo botón de cierre estilizado
+    // Detectamos si el navegador permite el cierre (los móviles en WhatsApp suelen permitirlo)
+    // En PC la mayoría de veces requerirá el cierre manual, por lo que adaptamos el botón
+    const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const textoBoton = esMovil ? "Cerrar Ventana" : "Entendido";
+
+    // 2. Inyectamos una estructura con diseño limpio, tipografía grande y centrada
     contenedor.innerHTML = `
-        <div class="tarjeta-error" style="text-align: center; padding: 20px;">
-            <p>${mensaje}</p>
-            <button id="btnCerrarPestaña" style="
-                margin-top: 15px; 
-                padding: 10px 20px; 
-                background-color: #0056b3; 
-                color: white; 
-                border: none; 
-                border-radius: 4px; 
-                font-family: inherit; 
-                font-size: 14px; 
-                cursor: pointer;
-                font-weight: bold;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                Cerrar Ventana
-            </button>
+        <div id="pantalla-error-container" style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            box-sizing: border-box;
+        ">
+            <div style="
+                background-color: #ffffff;
+                border-top: 4px solid #dc3545;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+                padding: 32px 24px;
+                max-width: 500px;
+                width: 100%;
+                text-align: center;
+            ">
+                <!-- Icono de advertencia visual -->
+                <div style="font-size: 48px; margin-bottom: 16px; color: #dc3545;">⚠️</div>
+                
+                <!-- Mensaje con tamaño de letra optimizado para PC (18px) -->
+                <p style="
+                    font-size: 18px;
+                    line-height: 1.6;
+                    color: #2c3e50;
+                    margin: 0 0 24px 0;
+                    font-weight: 500;
+                ">
+                    ${mensaje}
+                </p>
+                
+                <!-- Botón adaptativo estilizado -->
+                <button id="btnAccionError" style="
+                    background-color: #0056b3;
+                    color: white;
+                    border: none;
+                    border-radius: 6px;
+                    padding: 12px 32px;
+                    font-size: 16px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    transition: background-color 0.2s;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+                ">
+                    ${textoBoton}
+                </button>
+            </div>
         </div>
     `;
 
-    // 3. Añadimos la acción inteligente de cierre al hacer clic
-    document.getElementById("btnCerrarPestaña").addEventListener("click", function() {
-        // Intento de cierre nativo (Funciona al 100% si entran desde el enlace de WhatsApp)
+    // 3. Lógica de acción inteligente
+    document.getElementById("btnAccionError").addEventListener("click", function() {
+        // Intenta el cierre de la pestaña
         window.close();
         
-        // Salvaguarda: Si el navegador del móvil bloquea el cierre por su política de seguridad, 
-        // le avisamos sutilmente al usuario a los 250 milisegundos.
+        // Si pasados 200ms la ventana sigue abierta (caso típico de PC)
         setTimeout(function() {
             if (!window.closed) {
-                alert("Ya puedes cerrar esta pestaña de forma manual en tu navegador.");
+                if (esMovil) {
+                    // En móvil avisamos discretamente si falla
+                    alert("Ya puedes cerrar esta pestaña manualmente en tu navegador.");
+                } else {
+                    // En PC, como no se puede cerrar, hacemos que el botón limpie la pantalla elegantemente
+                    const panel = document.getElementById("pantalla-error-container");
+                    if (panel) {
+                        panel.innerHTML = `
+                            <div style="text-align: center; color: #7f8c8d; font-size: 16px; margin-top: 40px;">
+                                <p>Puedes cerrar esta pestaña del navegador cuando lo desees.</p>
+                            </div>
+                        `;
+                    }
+                }
             }
-        }, 250);
+        }, 200);
     });
 }
+
 
      </script>
   </body>
