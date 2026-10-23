@@ -42,7 +42,7 @@
 
      <script>
        // URL DE TU WEB APP DE GOOGLE APP SCRIPT (Se cambiará al publicar el script más adelante)
-       const URL_API = "https://script.google.com/macros/s/AKfycbyVo8KXUVu4lA6hzwj3LCOTybn6ZIJBwfeZNO3_B3ySf9xDiijs70TBgAhkTNCpH2ZorA/exec";
+       const URL_API = "https://script.google.com/macros/s/AKfycbwnBjOUlMUY62JVNzHSmEVdrlJaIA072ntMWgY6J0aZASe3DY3OrJ1EVvpvRrPK0duESA/exec";
        
        let filaPrestamo = 0;
        let columnaRenovacion = 0;
@@ -57,9 +57,12 @@
                return;
            }
 
-           // Llamada a la API de Google App Script para validar el préstamo de forma segura
+           // Llamada optimizada a la API de Google App Script
            fetch(`${URL_API}?action=buscar&id=${idPrestamo}`)
-               .then(response => response.json())
+               .then(response => {
+                   if (!response.ok) throw new Error("Respuesta de red incorrecta");
+                   return response.json();
+               })
                .then(data => {
                    document.getElementById("cargando").style.display = "none";
                    
@@ -76,8 +79,9 @@
                })
                .catch(error => {
                    document.getElementById("cargando").style.display = "none";
-                   mostrarError("Error de conexión al buscar los datos: " + error);
+                   mostrarError("Error de comunicación o el préstamo no es válido: " + error.message);
                });
+
        });
 
        function renderizarInterfaz(data) {
