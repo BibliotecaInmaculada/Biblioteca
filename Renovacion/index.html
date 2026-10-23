@@ -315,15 +315,10 @@
 
 
 function mostrarError(mensaje) {
-    // 1. Buscamos el contenedor principal de tu página (ajusta el ID si usas uno específico)
+    // 1. Buscamos el contenedor principal de tu página
     const contenedor = document.getElementById("contenedor-error") || document.body; 
-    
-    // Detectamos si el navegador permite el cierre (los móviles en WhatsApp suelen permitirlo)
-    // En PC la mayoría de veces requerirá el cierre manual, por lo que adaptamos el botón
-    const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    const textoBoton = esMovil ? "Cerrar Ventana" : "Entendido";
 
-    // 2. Inyectamos una estructura con diseño limpio, tipografía grande y centrada
+    // 2. Inyectamos la estructura visual con la tarjeta centrada y letra grande (18px)
     contenedor.innerHTML = `
         <div id="pantalla-error-container" style="
             display: flex;
@@ -335,7 +330,7 @@ function mostrarError(mensaje) {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             box-sizing: border-box;
         ">
-            <div style="
+            <div id="tarjeta-alerta-contenido" style="
                 background-color: #ffffff;
                 border-top: 4px solid #dc3545;
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -348,7 +343,7 @@ function mostrarError(mensaje) {
                 <!-- Icono de advertencia visual -->
                 <div style="font-size: 48px; margin-bottom: 16px; color: #dc3545;">⚠️</div>
                 
-                <!-- Mensaje con tamaño de letra optimizado para PC (18px) -->
+                <!-- Mensaje principal optimizado para PC y Móvil -->
                 <p style="
                     font-size: 18px;
                     line-height: 1.6;
@@ -359,7 +354,7 @@ function mostrarError(mensaje) {
                     ${mensaje}
                 </p>
                 
-                <!-- Botón adaptativo estilizado -->
+                <!-- Botón de acción único -->
                 <button id="btnAccionError" style="
                     background-color: #0056b3;
                     color: white;
@@ -372,38 +367,38 @@ function mostrarError(mensaje) {
                     transition: background-color 0.2s;
                     box-shadow: 0 2px 4px rgba(0,0,0,0.15);
                 ">
-                    ${textoBoton}
+                    Cerrar Ventana
                 </button>
             </div>
         </div>
     `;
 
-    // 3. Lógica de acción inteligente
+    // 3. Lógica de cierre inteligente y limpia (Sin Alerts de sistema)
     document.getElementById("btnAccionError").addEventListener("click", function() {
-        // Intenta el cierre de la pestaña
+        // Intento de cierre nativo directo
         window.close();
         
-        // Si pasados 200ms la ventana sigue abierta (caso típico de PC)
+        // Si la pestaña sigue abierta a los 200ms (bloqueo de seguridad del navegador en PC o Móvil)
         setTimeout(function() {
             if (!window.closed) {
-                if (esMovil) {
-                    // En móvil avisamos discretamente si falla
-                    alert("Ya puedes cerrar esta pestaña manualmente en tu navegador.");
-                } else {
-                    // En PC, como no se puede cerrar, hacemos que el botón limpie la pantalla elegantemente
-                    const panel = document.getElementById("pantalla-error-container");
-                    if (panel) {
-                        panel.innerHTML = `
-                            <div style="text-align: center; color: #7f8c8d; font-size: 16px; margin-top: 40px;">
-                                <p>Puedes cerrar esta pestaña del navegador cuando lo desees.</p>
-                            </div>
-                        `;
-                    }
+                // Modificamos el contenido de la tarjeta de forma elegante en lugar de lanzar un alert
+                const tarjeta = document.getElementById("tarjeta-alerta-contenido");
+                if (tarjeta) {
+                    tarjeta.innerHTML = `
+                        <div style="font-size: 48px; margin-bottom: 16px; color: #28a745;">✓</div>
+                        <p style="font-size: 18px; line-height: 1.6; color: #2c3e50; font-weight: 500; margin-bottom: 10px;">
+                            Entendido
+                        </p>
+                        <p style="font-size: 15px; color: #7f8c8d; margin: 0;">
+                            Por seguridad de tu dispositivo, ya puedes cerrar esta pestaña manualmente desde el administrador de tu navegador.
+                        </p>
+                    `;
                 }
             }
         }, 200);
     });
 }
+
 
 
      </script>
